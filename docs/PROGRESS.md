@@ -1,6 +1,6 @@
-﻿# 進捗 (SSOT)
+# 進捗 (SSOT)
 
-最終更新: 2025-12-25 22:08
+最終更新: 2025-12-25 22:31
 
 ## 完了
 - 進捗共有の仕組みを追加（docs/PROGRESS.md, scripts/status.py, scripts/run_tests.py）
@@ -24,7 +24,7 @@
 - 検証結果と考察をドキュメントに整理
 - GitHub で docs/ 内容が見えない件の確認依頼を受領
 - 学習/推論ログの取得と要約を追加
-- 進捗ブロックのcommit更新とMarkdown改行の正規化
+- 改行/BOMの診断と修正を実施
 
 ## 作業中
 - なし
@@ -56,10 +56,11 @@
 ## 進捗ブロック
 ```
 # PROGRESS_UPDATE
-updated: 2025-12-25 22:08
+updated: 2025-12-25 22:31
 branch: master
-commit: 6c1d9be chore: add training and inference logging
+commit: 7ab27fb chore: normalize docs newlines and update progress
 tests: PASS
+artifacts: train_last.log=present, play_policy_summary.json=present
 next: - なし
 blockers: - なし
 ```
