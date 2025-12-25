@@ -1,6 +1,6 @@
-# 進捗 (SSOT)
+﻿# 進捗 (SSOT)
 
-最終更新: 2025-12-25 22:44
+最終更新: 2025-12-26 00:22
 
 ## 完了
 - 進捗共有の仕組みを追加（docs/PROGRESS.md, scripts/status.py, scripts/run_tests.py）
@@ -25,6 +25,7 @@
 - GitHub で docs/ 内容が見えない件の確認依頼を受領
 - 学習/推論ログの取得と要約を追加
 - 改行/BOMの診断と修正を実施
+- 評価基盤（simulate.py）を追加して複数ゲームの集計を実行
 
 ## 作業中
 - なし
@@ -52,13 +53,16 @@
 - generate_dataset: num-games=5 depth=3 max-cells=2 max-steps=2000 保存=dataset_d3_g5_fast.npz
 - train_policy: epochs=20 batch=256 lr=1e-3 val=0.1 device=auto
 - play_policy: Final score=384 max_tile=32 (seed=0, device=auto)
+- simulate random: n=50 seed=0 mean=1103.12 p50=980.0 p90=2072.8 mean_invalid=0.0
+- simulate expectimax: n=10 depth=3 max-cells=2 max-steps=5000 mean=6182.0 p50=5608.0 p90=8699.6 mean_invalid=0.0
+- simulate policy: n=50 seed=0 mean=976.56 p50=862.0 p90=1485.6 mean_invalid=0.0
 
 ## 進捗ブロック
 ```
 # PROGRESS_UPDATE
-updated: 2025-12-25 22:44
+updated: 2025-12-26 00:22
 branch: master
-commit: 2b57623 docs: remove BOM and restore line breaks
+commit: dd71031 docs: update progress block commit
 tests: PASS
 artifacts: train_last.log=present, play_policy_summary.json=present
 next: - なし
@@ -71,6 +75,14 @@ blockers: - なし
 - README/docs にSSOT/アーカイブ方針を追記
 - dev_checklist に進捗/模倣学習項目を追加
 - dev を master に統合
+
+## simulate 実行結果
+- random: `python scripts/simulate.py --agent random -n 50 --seed 0 --out-json .artifacts/sim_random.json --out-csv .artifacts/sim_random.csv`
+  - mean=1103.12 p50=980.0 p90=2072.8 mean_invalid=0.0
+- expectimax: `python scripts/simulate.py --agent expectimax -n 10 --depth 3 --seed 0 --max-cells 2 --max-steps 5000 --out-json .artifacts/sim_expectimax.json --out-csv .artifacts/sim_expectimax.csv`
+  - mean=6182.0 p50=5608.0 p90=8699.6 mean_invalid=0.0
+- policy: `python scripts/simulate.py --agent policy -n 50 --model data/models/policy_best.pt --seed 0 --out-json .artifacts/sim_policy.json --out-csv .artifacts/sim_policy.csv`
+  - mean=976.56 p50=862.0 p90=1485.6 mean_invalid=0.0
 
 ## ログ取得
 - train command: `python scripts/train_policy.py --dataset data/raw/dataset_small.npz --epochs 5 --batch-size 256 --lr 1e-3 --val-ratio 0.1 --out-dir data/models --seed 0`

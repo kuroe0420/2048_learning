@@ -28,3 +28,4 @@
 ## 進捗・運用
 - [x] 進捗共有の仕組み導入完了（docs/PROGRESS.md, scripts/status.py）
 - [x] 模倣学習パイプライン導入完了（generate/train/play）
+- [x] 評価/ベンチ（simulate.py）を導入して集計可能にする

@@ -35,3 +35,6 @@ env.render()
 - Random play: `python scripts/play_random.py`
 - Benchmark: `python scripts/benchmark.py`
 - Train policy (GPU auto): `python scripts/train_policy.py --dataset data/raw/dataset.npz --device auto`
+- Simulate (random): `python scripts/simulate.py --agent random -n 200 --seed 0`
+- Simulate (expectimax): `python scripts/simulate.py --agent expectimax -n 50 --depth 3 --seed 0`
+- Simulate (policy): `python scripts/simulate.py --agent policy -n 200 --model data/models/policy_best.pt --seed 0`
