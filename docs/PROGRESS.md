@@ -58,7 +58,7 @@
 # PROGRESS_UPDATE
 updated: 2025-12-25 22:31
 branch: master
-commit: 845916d docs: fix encoding and add docs repair script
+commit: 261df84 docs: refresh progress block
 tests: PASS
 artifacts: train_last.log=present, play_policy_summary.json=present
 next: - なし
