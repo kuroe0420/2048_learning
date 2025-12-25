@@ -1,6 +1,6 @@
 # 進捗 (SSOT)
 
-最終更新: 2025-12-26 00:26
+最終更新: 2025-12-26 00:52
 
 ## 完了
 - 進捗共有の仕組みを追加（docs/PROGRESS.md, scripts/status.py, scripts/run_tests.py）
@@ -26,6 +26,10 @@
 - 学習/推論ログの取得と要約を追加
 - 改行/BOMの診断と修正を実施
 - 評価基盤（simulate.py）を追加して複数ゲームの集計を実行
+- 計測はローカル手動実行を推奨する方針を回答
+- 手動計測用コマンドセットの提供
+- 手動計測の単発結果を記録（random/expectimax/policy）
+- 手動計測の複数seed結果を記録（random/policy）
 
 ## 作業中
 - なし
@@ -56,6 +60,11 @@
 - simulate random: n=50 seed=0 mean=1103.12 p50=980.0 p90=2072.8 mean_invalid=0.0
 - simulate expectimax: n=10 depth=3 max-cells=2 max-steps=5000 mean=6182.0 p50=5608.0 p90=8699.6 mean_invalid=0.0
 - simulate policy: n=50 seed=0 mean=976.56 p50=862.0 p90=1485.6 mean_invalid=0.0
+- simulate random: n=200 seed=0 mean=1112.54 p50=996.0 p90=2068.0 mean_invalid=0.0
+- simulate expectimax: n=10 depth=3 max-cells=2 max-steps=5000 mean=6182.0 p50=5608.0 p90=8699.6 mean_invalid=0.0
+- simulate policy: n=200 seed=0 mean=1038.62 p50=950.0 p90=1576.4 mean_invalid=0.0
+- simulate random: seeds=0-9 mean=1243.2 p50=1124.0 p90=2081.2 mean_invalid=0.0
+- simulate policy: seeds=0-9 mean=1222.4 p50=1204.0 p90=1757.6 mean_invalid=0.0
 
 ## 進捗ブロック
 ```
@@ -77,12 +86,16 @@ blockers: - なし
 - dev を master に統合
 
 ## simulate 実行結果
-- random: `python scripts/simulate.py --agent random -n 50 --seed 0 --out-json .artifacts/sim_random.json --out-csv .artifacts/sim_random.csv`
-  - mean=1103.12 p50=980.0 p90=2072.8 mean_invalid=0.0
-- expectimax: `python scripts/simulate.py --agent expectimax -n 10 --depth 3 --seed 0 --max-cells 2 --max-steps 5000 --out-json .artifacts/sim_expectimax.json --out-csv .artifacts/sim_expectimax.csv`
+- random: `python scripts/simulate.py --agent random -n 200 --seed 0 --out-json .artifacts/sim_random_200.json --out-csv .artifacts/sim_random_200.csv`
+  - mean=1112.54 p50=996.0 p90=2068.0 mean_invalid=0.0
+- expectimax: `python scripts/simulate.py --agent expectimax -n 10 --depth 3 --max-cells 2 --max-steps 5000 --seed 0 --out-json .artifacts/sim_expectimax_10.json --out-csv .artifacts/sim_expectimax_10.csv`
   - mean=6182.0 p50=5608.0 p90=8699.6 mean_invalid=0.0
-- policy: `python scripts/simulate.py --agent policy -n 50 --model data/models/policy_best.pt --seed 0 --out-json .artifacts/sim_policy.json --out-csv .artifacts/sim_policy.csv`
-  - mean=976.56 p50=862.0 p90=1485.6 mean_invalid=0.0
+- policy: `python scripts/simulate.py --agent policy -n 200 --model data/models/policy_best.pt --seed 0 --out-json .artifacts/sim_policy_200.json --out-csv .artifacts/sim_policy_200.csv`
+  - mean=1038.62 p50=950.0 p90=1576.4 mean_invalid=0.0
+- random (seeds): `python scripts/simulate.py --agent random --seeds "0,1,2,3,4,5,6,7,8,9" --out-json .artifacts/sim_random_seeds.json --out-csv .artifacts/sim_random_seeds.csv`
+  - mean=1243.2 p50=1124.0 p90=2081.2 mean_invalid=0.0
+- policy (seeds): `python scripts/simulate.py --agent policy --seeds "0,1,2,3,4,5,6,7,8,9" --model data/models/policy_best.pt --out-json .artifacts/sim_policy_seeds.json --out-csv .artifacts/sim_policy_seeds.csv`
+  - mean=1222.4 p50=1204.0 p90=1757.6 mean_invalid=0.0
 
 ## ログ取得
 - train command: `python scripts/train_policy.py --dataset data/raw/dataset_small.npz --epochs 5 --batch-size 256 --lr 1e-3 --val-ratio 0.1 --out-dir data/models --seed 0`
