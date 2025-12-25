@@ -34,3 +34,4 @@ env.render()
 - Test runner: `python scripts/run_tests.py`
 - Random play: `python scripts/play_random.py`
 - Benchmark: `python scripts/benchmark.py`
+- Train policy (GPU auto): `python scripts/train_policy.py --dataset data/raw/dataset.npz --device auto`

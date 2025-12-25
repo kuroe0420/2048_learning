@@ -17,6 +17,7 @@ def main() -> None:
     parser.add_argument("--out-dir", type=str, default="data/models")
     parser.add_argument("--max-pow", type=int, default=15)
     parser.add_argument("--seed", type=int, default=None)
+    parser.add_argument("--device", type=str, default="auto", help="auto|cpu|cuda")
     args = parser.parse_args()
 
     train_policy(
@@ -28,6 +29,7 @@ def main() -> None:
         val_ratio=args.val_ratio,
         max_pow=args.max_pow,
         seed=args.seed,
+        device=args.device,
     )
 
 

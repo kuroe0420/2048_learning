@@ -19,6 +19,8 @@ def main() -> None:
     parser.add_argument("--sample-prob", type=float, default=1.0)
     parser.add_argument("--seed", type=int, default=None)
     parser.add_argument("--include-invalid", action="store_true")
+    parser.add_argument("--max-steps", type=int, default=None)
+    parser.add_argument("--max-cells", type=int, default=4)
     args = parser.parse_args()
 
     out_path = Path(args.out) if args.out else Path("data/raw") / f"dataset_expectimax_depth{args.depth}_games{args.num_games}.npz"
@@ -44,7 +46,7 @@ def main() -> None:
         done = False
         step = 0
         while not done:
-            action = choose_action(env, args.depth)
+            action = choose_action(env, args.depth, max_cells=args.max_cells)
             board_before = env.board.copy()
             _, reward, done, info = env.step(action)
 
@@ -64,6 +66,8 @@ def main() -> None:
                 depths.append(args.depth)
 
             step += 1
+            if args.max_steps is not None and step >= args.max_steps:
+                break
 
     np.savez_compressed(
         out_path,

@@ -21,8 +21,11 @@ def train_policy(
     val_ratio: float = 0.1,
     max_pow: int = 15,
     seed: int | None = None,
+    device: str = "auto",
 ) -> Tuple[Path, Dict[str, float]]:
-    device = torch.device("cpu")
+    if device == "auto":
+        device = "cuda" if torch.cuda.is_available() else "cpu"
+    device = torch.device(device)
     if seed is not None:
         torch.manual_seed(int(seed))
 

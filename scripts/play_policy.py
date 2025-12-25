@@ -26,6 +26,7 @@ def main() -> None:
     parser.add_argument("--seed", type=int, default=None)
     parser.add_argument("--max-steps", type=int, default=None)
     parser.add_argument("--max-pow", type=int, default=None)
+    parser.add_argument("--device", type=str, default="auto", help="auto|cpu|cuda")
     args = parser.parse_args()
 
     model_path = Path(args.model)
@@ -37,8 +38,11 @@ def main() -> None:
     if max_pow is None:
         max_pow = 15
 
-    model = PolicyNet(in_channels=max_pow + 1)
-    model.load_state_dict(torch.load(model_path, map_location="cpu"))
+    device = args.device
+    if device == "auto":
+        device = "cuda" if torch.cuda.is_available() else "cpu"
+    model = PolicyNet(in_channels=max_pow + 1).to(device)
+    model.load_state_dict(torch.load(model_path, map_location=device))
 
     env = Twenty48Env()
     env.reset(seed=args.seed)
@@ -46,7 +50,7 @@ def main() -> None:
     done = False
     step = 0
     while not done:
-        action = select_action(env.board, model, max_pow=max_pow)
+        action = select_action(env.board, model, max_pow=max_pow, device=device)
         _, reward, done, info = env.step(action)
         print(
             "Step {step} | action={action} | reward={reward} | score={score} | max_tile={max_tile} | "

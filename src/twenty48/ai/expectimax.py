@@ -13,7 +13,7 @@ from .heuristics import evaluate
 ActionValue = Tuple[int, float]
 
 
-def choose_action(env, depth: int) -> int:
+def choose_action(env, depth: int, max_cells: int = 4) -> int:
     """env??????????action(0-3)????"""
     board = env.board
     score = int(env.score)
@@ -27,7 +27,7 @@ def choose_action(env, depth: int) -> int:
         new_board, delta, moved = apply_move(board, action)
         if not moved:
             continue
-        value = chance_value(new_board, score + delta, depth - 1, cache)
+        value = chance_value(new_board, score + delta, depth - 1, cache, max_cells=max_cells)
         if value > best_value:
             best_value = value
             best_action = action
@@ -48,7 +48,7 @@ def apply_move(board: np.ndarray, action: int) -> Tuple[np.ndarray, int, bool]:
     return new_board, int(reward), moved
 
 
-def max_value(board: np.ndarray, score: int, depth: int, cache: Dict) -> float:
+def max_value(board: np.ndarray, score: int, depth: int, cache: Dict, max_cells: int = 4) -> float:
     key = ("max", depth, _board_key(board), score)
     cached = cache.get(key)
     if cached is not None:
@@ -64,7 +64,7 @@ def max_value(board: np.ndarray, score: int, depth: int, cache: Dict) -> float:
         new_board, delta, moved = apply_move(board, action)
         if not moved:
             continue
-        value = chance_value(new_board, score + delta, depth - 1, cache)
+        value = chance_value(new_board, score + delta, depth - 1, cache, max_cells=max_cells)
         if value > best:
             best = value
 
@@ -83,7 +83,7 @@ def chance_value(board: np.ndarray, score: int, depth: int, cache: Dict, max_cel
 
     empties = list(zip(*np.where(board == 0)))
     if not empties:
-        value = max_value(board, score, depth, cache)
+        value = max_value(board, score, depth, cache, max_cells=max_cells)
         cache[key] = value
         return value
 
@@ -96,7 +96,7 @@ def chance_value(board: np.ndarray, score: int, depth: int, cache: Dict, max_cel
         for value, prob in ((2, 0.9), (4, 0.1)):
             next_board = board.copy()
             next_board[r, c] = value
-            total += prob * max_value(next_board, score, depth, cache)
+            total += prob * max_value(next_board, score, depth, cache, max_cells=max_cells)
 
     value = total / len(empties)
     cache[key] = value
