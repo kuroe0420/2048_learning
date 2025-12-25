@@ -1,6 +1,6 @@
 # 進捗 (SSOT)
 
-最終更新: 2025-12-25 22:31
+最終更新: 2025-12-25 22:44
 
 ## 完了
 - 進捗共有の仕組みを追加（docs/PROGRESS.md, scripts/status.py, scripts/run_tests.py）
@@ -56,9 +56,9 @@
 ## 進捗ブロック
 ```
 # PROGRESS_UPDATE
-updated: 2025-12-25 22:31
+updated: 2025-12-25 22:44
 branch: master
-commit: 261df84 docs: refresh progress block
+commit: fdfb04e docs: update progress block commit
 tests: PASS
 artifacts: train_last.log=present, play_policy_summary.json=present
 next: - なし
