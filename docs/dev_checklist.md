@@ -1,26 +1,11 @@
-# 2048 AI 開発フロー チェックリスト（Python環境・Codex運用前提）
+﻿# 2048 AI 髢狗匱繝輔Ο繝ｼ 繝√ぉ繝・け繝ｪ繧ｹ繝茨ｼ・ython迺ｰ蠅・・Codex驕狗畑蜑肴署・・
+## 蛻晄悄繧ｻ繝・ヨ繧｢繝・・
+- [x] 譁ｰ隕上Μ繝昴ず繝医Μ菴懈・・井ｾ・ `2048-ai`・・- [x] `pyproject.toml` 菴懈・・・umpy/pytest・・- [x] `src/` 繝ｬ繧､繧｢繧ｦ繝域治逕ｨ縲～pip install -e .` 縺ｧ蜍輔￥
+- [x] `pytest -q` 繧辰I逶ｸ蠖薙→縺励※蟶ｸ譎ゅげ繝ｪ繝ｼ繝ｳ
 
-## 初期セットアップ
-- [ ] 新規リポジトリ作成（例: `2048-ai`）
-- [ ] `pyproject.toml` 作成（numpy/pytest）
-- [ ] `src/` レイアウト採用、`pip install -e .` で動く
-- [ ] `pytest -q` をCI相当として常時グリーン
-
-## 実装順（壊れにくい）
-- [ ] `mechanics.py` に「1行LEFT圧縮＋マージ」純関数を作る
-- [ ] `test_mechanics.py` を先に通す
-- [ ] `env.py` を作る（reset/step/done）
-- [ ] `test_env_step.py` を通す（無効手、done、seed再現）
-- [ ] `scripts/play_random.py` で目視確認
-- [ ] `scripts/benchmark.py` で複数ゲームの平均が出る
-
-## 品質・将来拡張
-- [ ] `clone()` が RNG 状態まで一致する（探索で致命的）
-- [ ] `step()` が **盤面変化の有無でspawnの有無が変わる**（無効手でspawnしない）
-- [ ] `info` がデバッグに十分（invalid_move / spawned / max_tile）
-- [ ] `board` の参照共有を避ける（返却時は `copy()`）
-
-## 合格ライン（環境完成）
-- [ ] ランダムプレイで例外が出ない（1万手程度）
-- [ ] seed固定で完全再現できる（盤面一致）
-- [ ] done判定が破綻しない（終局が来る）
+## 螳溯｣・・ｼ亥｣翫ｌ縺ｫ縺上＞・・- [x] `mechanics.py` 縺ｫ縲・陦鍬EFT蝨ｧ邵ｮ・九・繝ｼ繧ｸ縲咲ｴ秘未謨ｰ繧剃ｽ懊ｋ
+- [x] `test_mechanics.py` 繧貞・縺ｫ騾壹☆
+- [x] `env.py` 繧剃ｽ懊ｋ・・eset/step/done・・- [x] `test_env_step.py` 繧帝壹☆・育┌蜉ｹ謇九‥one縲《eed蜀咲樟・・- [x] `scripts/play_random.py` 縺ｧ逶ｮ隕也｢ｺ隱・- [x] `scripts/benchmark.py` 縺ｧ隍・焚繧ｲ繝ｼ繝縺ｮ蟷ｳ蝮・′蜃ｺ繧・
+## 蜩∬ｳｪ繝ｻ蟆・擂諡｡蠑ｵ
+- [x] `clone()` 縺・RNG 迥ｶ諷九∪縺ｧ荳閾ｴ縺吶ｋ・域爾邏｢縺ｧ閾ｴ蜻ｽ逧・ｼ・- [x] `step()` 縺・**逶､髱｢螟牙喧縺ｮ譛臥┌縺ｧspawn縺ｮ譛臥┌縺悟､峨ｏ繧・*・育┌蜉ｹ謇九〒spawn縺励↑縺・ｼ・- [x] `info` 縺後ョ繝舌ャ繧ｰ縺ｫ蜊∝・・・nvalid_move / spawned / max_tile・・- [x] `board` 縺ｮ蜿ら・蜈ｱ譛峨ｒ驕ｿ縺代ｋ・郁ｿ泌唆譎ゅ・ `copy()`・・
+## 蜷域ｼ繝ｩ繧､繝ｳ・育腸蠅・ｮ梧・・・- [x] 繝ｩ繝ｳ繝繝繝励Ξ繧､縺ｧ萓句､悶′蜃ｺ縺ｪ縺・ｼ・荳・焔遞句ｺｦ・・- [x] seed蝗ｺ螳壹〒螳悟・蜀咲樟縺ｧ縺阪ｋ・育乢髱｢荳閾ｴ・・- [x] done蛻､螳壹′遐ｴ邯ｻ縺励↑縺・ｼ育ｵょｱ縺梧擂繧具ｼ・
