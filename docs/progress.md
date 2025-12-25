@@ -1,6 +1,6 @@
 ﻿# 作業進捗
 
-最終更新: 2025-12-25 13:33
+最終更新: 2025-12-25 13:34
 
 ## 完了
 - docs/ に仕様ドキュメントを整理済み（SSOT: docs/2048_env_spec_and_codex_prompt.md）
@@ -13,6 +13,7 @@
 - Expectimax 設計メモを追加（docs/expectimax_spec.md）
 - Git リモート設定と初回コミット・push を完了
 - docs/dev_checklist.md を更新
+- 進捗/チェックリスト更新をコミット・push
 
 ## 確認待ち
 - なし
