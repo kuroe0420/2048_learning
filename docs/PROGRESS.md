@@ -1,6 +1,6 @@
 ﻿# 進捗 (SSOT)
 
-最終更新: 2025-12-25 14:09
+最終更新: 2025-12-25 14:10
 
 ## 完了
 - 進捗共有の仕組みを追加（docs/PROGRESS.md, scripts/status.py, scripts/run_tests.py）
@@ -11,12 +11,13 @@
 - 進捗SSOTの重複を解消（docs/PROGRESS.md に統一）
 - 2048-ai_docs を docs/archive/2048-ai_docs に移動
 - SSOT/アーカイブ方針を README と docs に明記
+- dev を master に統合
 
 ## 作業中
 - なし
 
 ## 次にやること
-- dev の変更を master に統合
+- なし
 
 ## ブロッカー
 - なし
@@ -29,11 +30,11 @@
 ## 進捗ブロック
 ```
 # PROGRESS_UPDATE
-updated: 2025-12-25 14:09
-branch: dev
-commit: 9e6e241 feat: add imitation learning pipeline
+updated: 2025-12-25 14:10
+branch: master
+commit: 03c5554 chore: unify progress SSOT and prepare master merge
 tests: PASS
-next: - dev の変更を master に統合
+next: - なし
 blockers: - なし
 ```
 
@@ -42,3 +43,4 @@ blockers: - なし
 - docs/archive/2048-ai_docs に移動
 - README/docs にSSOT/アーカイブ方針を追記
 - dev_checklist に進捗/模倣学習項目を追加
+- dev を master に統合
