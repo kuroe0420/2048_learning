@@ -1,6 +1,6 @@
 # 進捗 (SSOT)
 
-最終更新: 2025-12-26 01:35
+最終更新: 2025-12-26 02:54
 
 ## 完了
 - 進捗共有の仕組みを追加（docs/PROGRESS.md, scripts/status.py, scripts/run_tests.py）
@@ -72,9 +72,9 @@
 ## 進捗ブロック
 ```
 # PROGRESS_UPDATE
-updated: 2025-12-26 01:35
+updated: 2025-12-26 02:54
 branch: master
-commit: 8b1ede0 docs: record multi-seed simulate results
+commit: e6b7456 chore: improve simulate benchmark usability and metrics
 tests: PASS
 artifacts: train_last.log=present, play_policy_summary.json=present
 next: - なし
