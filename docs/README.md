@@ -5,3 +5,4 @@
 - dev_checklist.md: Development checklist to verify completeness.
 - PROGRESS.md: 進捗のSSOTと更新ログ.
 - imitation_learning_spec.md: Imitation learning spec and reproduction steps.
+- archive/: 参考資料の保管（SSOTではない）.

@@ -1,6 +1,6 @@
 ﻿# 進捗 (SSOT)
 
-最終更新: 2025-12-25 14:03
+最終更新: 2025-12-25 14:09
 
 ## 完了
 - 進捗共有の仕組みを追加（docs/PROGRESS.md, scripts/status.py, scripts/run_tests.py）
@@ -8,12 +8,15 @@
 - scripts/status.py と scripts/run_tests.py の動作確認
 - dev ブランチを作成
 - 模倣学習パイプラインの追加（generate/train/play）
+- 進捗SSOTの重複を解消（docs/PROGRESS.md に統一）
+- 2048-ai_docs を docs/archive/2048-ai_docs に移動
+- SSOT/アーカイブ方針を README と docs に明記
 
 ## 作業中
 - なし
 
 ## 次にやること
-- master へのマージ準備（レビュー後）
+- dev の変更を master に統合
 
 ## ブロッカー
 - なし
@@ -26,18 +29,16 @@
 ## 進捗ブロック
 ```
 # PROGRESS_UPDATE
-updated: 2025-12-25 14:03
+updated: 2025-12-25 14:09
 branch: dev
-commit: 9b894f1 chore: add progress reporting
+commit: 9e6e241 feat: add imitation learning pipeline
 tests: PASS
-next: - master へのマージ準備（レビュー後）
+next: - dev の変更を master に統合
 blockers: - なし
 ```
 
 ## 変更点サマリ
-- docs/PROGRESS.md を追加
-- scripts/status.py を追加
-- scripts/run_tests.py を追加
-- README の Development を更新
-- .gitignore に .artifacts/ を追加
-- 模倣学習パイプラインを追加（src/twenty48/ml, scripts/*policy*.py, docs/imitation_learning_spec.md）
+- docs/PROGRESS.md をSSOT化し重複を解消
+- docs/archive/2048-ai_docs に移動
+- README/docs にSSOT/アーカイブ方針を追記
+- dev_checklist に進捗/模倣学習項目を追加

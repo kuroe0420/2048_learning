@@ -24,3 +24,7 @@
 - [x] ランダムプレイで例外が出ない（目安 1,000 手程度）
 - [x] seed 固定で完全再現できる（盤面一致）
 - [x] done 判定が破綻しない（終局が来る）
+
+## 進捗・運用
+- [x] 進捗共有の仕組み導入完了（docs/PROGRESS.md, scripts/status.py）
+- [x] 模倣学習パイプライン導入完了（generate/train/play）

@@ -2,6 +2,11 @@
 
 A small, deterministic 2048 environment intended for search and reinforcement learning.
 
+## Documentation
+
+- SSOT (spec/progress): `docs/`
+- Archive: `docs/archive/` (reference only)
+
 ## Usage
 
 Action mapping:
