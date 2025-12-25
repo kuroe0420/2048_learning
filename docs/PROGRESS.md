@@ -58,7 +58,7 @@
 # PROGRESS_UPDATE
 updated: 2025-12-25 22:31
 branch: master
-commit: 7ab27fb chore: normalize docs newlines and update progress
+commit: 845916d docs: fix encoding and add docs repair script
 tests: PASS
 artifacts: train_last.log=present, play_policy_summary.json=present
 next: - なし
