@@ -1,6 +1,6 @@
 # 進捗 (SSOT)
 
-最終更新: 2025-12-26 00:52
+最終更新: 2025-12-26 01:35
 
 ## 完了
 - 進捗共有の仕組みを追加（docs/PROGRESS.md, scripts/status.py, scripts/run_tests.py）
@@ -30,6 +30,7 @@
 - 手動計測用コマンドセットの提供
 - 手動計測の単発結果を記録（random/expectimax/policy）
 - 手動計測の複数seed結果を記録（random/policy）
+- simulate.py 改修と評価基盤の再計測（expectimaxは長時間のため未完了）
 
 ## 作業中
 - なし
@@ -65,13 +66,15 @@
 - simulate policy: n=200 seed=0 mean=1038.62 p50=950.0 p90=1576.4 mean_invalid=0.0
 - simulate random: seeds=0-9 mean=1243.2 p50=1124.0 p90=2081.2 mean_invalid=0.0
 - simulate policy: seeds=0-9 mean=1222.4 p50=1204.0 p90=1757.6 mean_invalid=0.0
+- simulate random (seeds 0-49): mean=1103.1 p50=980.0 p90=2072.8 rate_2048=0.000 invalid=0.0000
+- simulate policy (seeds 0-49): mean=976.6 p50=862.0 p90=1485.6 rate_2048=0.000 invalid=0.0000
 
 ## 進捗ブロック
 ```
 # PROGRESS_UPDATE
-updated: 2025-12-26 00:26
+updated: 2025-12-26 01:35
 branch: master
-commit: 117c5e7 docs: refresh progress block for simulate
+commit: 8b1ede0 docs: record multi-seed simulate results
 tests: PASS
 artifacts: train_last.log=present, play_policy_summary.json=present
 next: - なし
@@ -96,6 +99,19 @@ blockers: - なし
   - mean=1243.2 p50=1124.0 p90=2081.2 mean_invalid=0.0
 - policy (seeds): `python scripts/simulate.py --agent policy --seeds "0,1,2,3,4,5,6,7,8,9" --model data/models/policy_best.pt --out-json .artifacts/sim_policy_seeds.json --out-csv .artifacts/sim_policy_seeds.csv`
   - mean=1222.4 p50=1204.0 p90=1757.6 mean_invalid=0.0
+
+## Simulation benchmark (seeds 0..49)
+- random: `python scripts/simulate.py --agent random --seeds 0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49 --quiet`
+  - output: `random games=50 mean=1103.1 p50=980.0 p90=2072.8 rate_2048=0.000 invalid=0.0000`
+  - json: `.artifacts/simulate_random_20251226_013207.json`
+  - csv: `.artifacts/simulate_random_20251226_013207.csv`
+- expectimax: `python scripts/simulate.py --agent expectimax --depth 3 --max-cells 4 --seeds 0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49 --quiet`
+  - output: timeout (1h)
+  - json/csv: not generated
+- policy: `python scripts/simulate.py --agent policy --model data/models/policy_best.pt --seeds 0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49 --quiet`
+  - output: `policy games=50 mean=976.6 p50=862.0 p90=1485.6 rate_2048=0.000 invalid=0.0000`
+  - json: `.artifacts/simulate_policy_20251226_013217.json`
+  - csv: `.artifacts/simulate_policy_20251226_013217.csv`
 
 ## ログ取得
 - train command: `python scripts/train_policy.py --dataset data/raw/dataset_small.npz --epochs 5 --batch-size 256 --lr 1e-3 --val-ratio 0.1 --out-dir data/models --seed 0`

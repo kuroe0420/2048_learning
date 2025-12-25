@@ -38,3 +38,6 @@ env.render()
 - Simulate (random): `python scripts/simulate.py --agent random -n 200 --seed 0`
 - Simulate (expectimax): `python scripts/simulate.py --agent expectimax -n 50 --depth 3 --seed 0`
 - Simulate (policy): `python scripts/simulate.py --agent policy -n 200 --model data/models/policy_best.pt --seed 0`
+- Simulate (seeds): `python scripts/simulate.py --agent policy --seeds 0,1,2,3,4 --model data/models/policy_best.pt`
+- Note: when `--seeds` is provided, `--games` is ignored
+- policy_meta location: `policy_meta.json` (same dir) or `<model>.meta.json` (e.g. `policy_best.meta.json`)

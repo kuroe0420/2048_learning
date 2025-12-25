@@ -49,6 +49,7 @@ def run_one_game(
 
     rng = random.Random(seed)
     invalid_count = 0
+    moved_steps = 0
     steps = 0
     start = time.perf_counter()
 
@@ -65,6 +66,10 @@ def run_one_game(
             action = select_action(env.board, model, max_pow=max_pow, device=device)
         else:
             raise ValueError(f"Unknown agent: {agent}")
+
+        _, _, moved = apply_move(env.board, action)
+        if moved:
+            moved_steps += 1
 
         _, _, done, info = env.step(action)
         if info.get("invalid_move"):
@@ -84,6 +89,7 @@ def run_one_game(
         "invalid_count": int(invalid_count),
         "invalid_rate": invalid_rate,
         "duration_ms": float(duration_ms),
+        "moved_steps": int(moved_steps),
     }
 
 
@@ -104,6 +110,8 @@ def _summary_stats(scores: np.ndarray, max_tiles: np.ndarray, invalid_rates: np.
         "rate_512": float(np.mean(max_tiles >= 512)),
         "rate_1024": float(np.mean(max_tiles >= 1024)),
         "rate_2048": float(np.mean(max_tiles >= 2048)),
+        "rate_4096": float(np.mean(max_tiles >= 4096)),
+        "rate_8192": float(np.mean(max_tiles >= 8192)),
         "mean_invalid_rate": float(np.mean(invalid_rates)),
         "total_duration_sec": float(np.sum(durations) / 1000.0),
         "avg_game_duration_ms": float(np.mean(durations)),
@@ -115,7 +123,8 @@ def _print_summary(agent: str, summary: dict, quiet: bool) -> None:
     if quiet:
         print(
             f"{agent} games={summary['games']} mean={summary['mean_score']:.1f} "
-            f"p50={summary['p50']:.1f} p90={summary['p90']:.1f} invalid={summary['mean_invalid_rate']:.4f}"
+            f"p50={summary['p50']:.1f} p90={summary['p90']:.1f} "
+            f"rate_2048={summary['rate_2048']:.3f} invalid={summary['mean_invalid_rate']:.4f}"
         )
         return
 
@@ -135,6 +144,8 @@ def _print_summary(agent: str, summary: dict, quiet: bool) -> None:
         "rate_512",
         "rate_1024",
         "rate_2048",
+        "rate_4096",
+        "rate_8192",
         "mean_invalid_rate",
         "total_duration_sec",
         "avg_game_duration_ms",
@@ -164,6 +175,8 @@ def main() -> None:
     seeds = _parse_seeds(args.seeds)
     if seeds is None:
         seeds = [args.seed + i for i in range(args.games)]
+    elif not args.quiet:
+        print("[warn] --seeds is provided, ignoring --games")
 
     ts = datetime.now().strftime("%Y%m%d_%H%M%S")
     artifacts = Path(".artifacts")
@@ -180,6 +193,8 @@ def main() -> None:
         if not model_path.exists():
             raise FileNotFoundError(f"model not found: {model_path}")
         meta_path = model_path.with_name("policy_meta.json")
+        if not meta_path.exists():
+            meta_path = model_path.with_suffix(".meta.json")
         if meta_path.exists():
             meta = json.loads(meta_path.read_text(encoding="utf-8"))
             max_pow = int(meta.get("max_pow", max_pow))
@@ -188,7 +203,10 @@ def main() -> None:
         model.eval()
 
     per_game = []
-    for seed in seeds:
+    total_games = len(seeds)
+    progress_every = 5 if total_games < 50 else 10
+    start_all = time.perf_counter()
+    for idx, seed in enumerate(seeds, start=1):
         result = run_one_game(
             agent=args.agent,
             seed=int(seed),
@@ -200,6 +218,17 @@ def main() -> None:
             max_cells=args.max_cells,
         )
         per_game.append(result)
+        if not args.quiet and (idx % progress_every == 0 or idx == total_games):
+            scores_so_far = np.array([g["final_score"] for g in per_game], dtype=np.float64)
+            p50 = float(np.percentile(scores_so_far, 50))
+            p90 = float(np.percentile(scores_so_far, 90))
+            mean_score = float(np.mean(scores_so_far))
+            invalid_rate = float(np.mean([g["invalid_rate"] for g in per_game]))
+            elapsed = time.perf_counter() - start_all
+            print(
+                f"[{idx}/{total_games}] mean={mean_score:.1f} p50={p50:.1f} "
+                f"p90={p90:.1f} invalid={invalid_rate:.4f} elapsed={elapsed:.1f}s"
+            )
 
     scores = np.array([g["final_score"] for g in per_game], dtype=np.float64)
     max_tiles = np.array([g["max_tile"] for g in per_game], dtype=np.float64)
@@ -212,7 +241,7 @@ def main() -> None:
     with out_csv.open("w", newline="", encoding="utf-8") as handle:
         writer = csv.DictWriter(
             handle,
-            fieldnames=["seed", "final_score", "max_tile", "steps", "invalid_rate", "duration_ms"],
+            fieldnames=["seed", "final_score", "max_tile", "steps", "invalid_rate", "duration_ms", "moved_steps"],
         )
         writer.writeheader()
         for game in per_game:
@@ -224,6 +253,7 @@ def main() -> None:
                     "steps": game["steps"],
                     "invalid_rate": f"{game['invalid_rate']:.6f}",
                     "duration_ms": f"{game['duration_ms']:.3f}",
+                    "moved_steps": game["moved_steps"],
                 }
             )
 
