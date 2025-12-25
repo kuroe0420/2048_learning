@@ -1,6 +1,6 @@
 ﻿# 進捗 (SSOT)
 
-最終更新: 2025-12-26 00:22
+最終更新: 2025-12-26 00:25
 
 ## 完了
 - 進捗共有の仕組みを追加（docs/PROGRESS.md, scripts/status.py, scripts/run_tests.py）
@@ -60,9 +60,9 @@
 ## 進捗ブロック
 ```
 # PROGRESS_UPDATE
-updated: 2025-12-26 00:22
+updated: 2025-12-26 00:25
 branch: master
-commit: dd71031 docs: update progress block commit
+commit: 0a86b18 feat: add simulation benchmark for agents
 tests: PASS
 artifacts: train_last.log=present, play_policy_summary.json=present
 next: - なし
