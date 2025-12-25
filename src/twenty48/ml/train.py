@@ -22,6 +22,9 @@ def train_policy(
     max_pow: int = 15,
     seed: int | None = None,
     device: str = "auto",
+    log_file: str | None = None,
+    metrics_csv: str | None = None,
+    run_info: Dict[str, str] | None = None,
 ) -> Tuple[Path, Dict[str, float]]:
     if device == "auto":
         device = "cuda" if torch.cuda.is_available() else "cpu"
@@ -40,9 +43,30 @@ def train_policy(
     criterion = nn.CrossEntropyLoss()
 
     best_val = float("inf")
+    best_val_acc = 0.0
     best_path = Path(out_dir) / "policy_best.pt"
     meta_path = Path(out_dir) / "policy_meta.json"
     Path(out_dir).mkdir(parents=True, exist_ok=True)
+
+    if log_file:
+        log_path = Path(log_file)
+        log_path.parent.mkdir(parents=True, exist_ok=True)
+        lines = [
+            "train_policy log",
+            f"dataset={dataset_path}",
+            f"epochs={epochs} batch_size={batch_size} lr={lr} val_ratio={val_ratio}",
+            f"max_pow={max_pow} seed={seed} device={device}",
+        ]
+        if run_info:
+            for key, value in run_info.items():
+                lines.append(f"{key}={value}")
+        log_path.write_text("\n".join(lines) + "\n", encoding="utf-8")
+
+    if metrics_csv:
+        csv_path = Path(metrics_csv)
+        csv_path.parent.mkdir(parents=True, exist_ok=True)
+        if not csv_path.exists():
+            csv_path.write_text("epoch,train_loss,val_loss,val_acc\n", encoding="utf-8")
 
     for epoch in range(1, epochs + 1):
         model.train()
@@ -78,6 +102,7 @@ def train_policy(
 
         if val_loss < best_val:
             best_val = val_loss
+            best_val_acc = val_acc
             torch.save(model.state_dict(), best_path)
             meta = {
                 "in_channels": max_pow + 1,
@@ -86,10 +111,25 @@ def train_policy(
             }
             meta_path.write_text(json.dumps(meta, indent=2), encoding="utf-8")
 
+        if metrics_csv:
+            with Path(metrics_csv).open("a", encoding="utf-8") as handle:
+                handle.write(f"{epoch},{train_loss:.6f},{val_loss:.6f},{val_acc:.6f}\n")
+
         print(
             f"Epoch {epoch}/{epochs} | train_loss={train_loss:.4f} | "
             f"val_loss={val_loss:.4f} | val_acc={val_acc:.4f}"
         )
 
-    metrics = {"best_val_loss": best_val}
+    if log_file:
+        with Path(log_file).open("a", encoding="utf-8") as handle:
+            handle.write(
+                "final: "
+                f"train_loss={train_loss:.6f} val_loss={val_loss:.6f} val_acc={val_acc:.6f}\n"
+            )
+            handle.write(
+                "best: "
+                f"val_loss={best_val:.6f} val_acc={best_val_acc:.6f}\n"
+            )
+
+    metrics = {"best_val_loss": best_val, "best_val_acc": best_val_acc}
     return best_path, metrics

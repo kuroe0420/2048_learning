@@ -60,6 +60,12 @@ def main() -> int:
     commit = f"{commit_hash} {commit_msg}" if commit_hash != "unknown" else "unknown"
 
     tests = _read_tests(repo_root / ".artifacts" / "pytest_last.txt")
+    train_log = repo_root / ".artifacts" / "train_last.log"
+    play_summary = repo_root / ".artifacts" / "play_policy_summary.json"
+    artifacts = (
+        f"train_last.log={'present' if train_log.exists() else 'absent'}, "
+        f"play_policy_summary.json={'present' if play_summary.exists() else 'absent'}"
+    )
     next_line = _extract_section_first_line(progress_text, "## 次にやること")
     blockers = _extract_section_first_line(progress_text, "## ブロッカー")
 
@@ -68,6 +74,7 @@ def main() -> int:
     print(f"branch: {branch}")
     print(f"commit: {commit}")
     print(f"tests: {tests}")
+    print(f"artifacts: {artifacts}")
     print(f"next: {next_line}")
     print(f"blockers: {blockers}")
     return 0

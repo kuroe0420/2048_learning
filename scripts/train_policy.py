@@ -18,6 +18,8 @@ def main() -> None:
     parser.add_argument("--max-pow", type=int, default=15)
     parser.add_argument("--seed", type=int, default=None)
     parser.add_argument("--device", type=str, default="auto", help="auto|cpu|cuda")
+    parser.add_argument("--log-file", type=str, default=".artifacts/train_last.log")
+    parser.add_argument("--metrics-csv", type=str, default=".artifacts/train_metrics.csv")
     args = parser.parse_args()
 
     train_policy(
@@ -30,6 +32,9 @@ def main() -> None:
         max_pow=args.max_pow,
         seed=args.seed,
         device=args.device,
+        log_file=args.log_file,
+        metrics_csv=args.metrics_csv,
+        run_info={"command": " ".join(sys.argv)},
     )
 
 

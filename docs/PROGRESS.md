@@ -1,6 +1,6 @@
 ﻿# 進捗 (SSOT)
 
-最終更新: 2025-12-25 21:38
+最終更新: 2025-12-25 21:56
 
 ## 完了
 - 進捗共有の仕組みを追加（docs/PROGRESS.md, scripts/status.py, scripts/run_tests.py）
@@ -22,6 +22,8 @@
 - Expectimax 実行結果を記録
 - 教師データ高速化→再学習→推論評価を実行
 - 検証結果と考察をドキュメントに整理
+- GitHub で docs/ 内容が見えない件の確認依頼を受領
+- 学習/推論ログの取得と要約を追加
 
 ## 作業中
 - なし
@@ -53,9 +55,9 @@
 ## 進捗ブロック
 ```
 # PROGRESS_UPDATE
-updated: 2025-12-25 21:11
+updated: 2025-12-25 21:56
 branch: master
-commit: 03c5554 chore: unify progress SSOT and prepare master merge
+commit: 043f44c chore: update docs and ml tooling
 tests: PASS
 next: - なし
 blockers: - なし
@@ -67,3 +69,11 @@ blockers: - なし
 - README/docs にSSOT/アーカイブ方針を追記
 - dev_checklist に進捗/模倣学習項目を追加
 - dev を master に統合
+
+## ログ取得
+- train command: `python scripts/train_policy.py --dataset data/raw/dataset_small.npz --epochs 5 --batch-size 256 --lr 1e-3 --val-ratio 0.1 --out-dir data/models --seed 0`
+- play command: `python scripts/play_policy.py --model data/models/policy_best.pt --seed 0`
+- train final: train_loss=1.323253 val_loss=1.388315 val_acc=0.299204
+- train best: val_loss=1.375633 val_acc=0.303754
+- play summary: final_score=1572 max_tile=128 invalid_rate=0.0 steps=156
+- artifacts: `.artifacts/train_last.log`, `.artifacts/train_metrics.csv`, `.artifacts/play_policy_seed0.log`, `.artifacts/play_policy_summary.json`
