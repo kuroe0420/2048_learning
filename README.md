@@ -24,5 +24,8 @@ env.render()
 ## Development
 
 - Run tests: `pytest -q`
+- Progress: `docs/PROGRESS.md`
+- Status output: `python scripts/status.py`
+- Test runner: `python scripts/run_tests.py`
 - Random play: `python scripts/play_random.py`
 - Benchmark: `python scripts/benchmark.py`
