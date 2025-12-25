@@ -58,7 +58,7 @@
 # PROGRESS_UPDATE
 updated: 2025-12-25 22:44
 branch: master
-commit: fdfb04e docs: update progress block commit
+commit: 2b57623 docs: remove BOM and restore line breaks
 tests: PASS
 artifacts: train_last.log=present, play_policy_summary.json=present
 next: - なし
