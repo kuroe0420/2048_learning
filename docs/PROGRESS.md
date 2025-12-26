@@ -1,6 +1,6 @@
 # 進捗 (SSOT)
 
-最終更新: 2025-12-26 09:50
+最終更新: 2025-12-26 12:04
 
 ## 完了
 - 進捗共有の仕組みを追加（docs/PROGRESS.md, scripts/status.py, scripts/run_tests.py）
@@ -61,6 +61,7 @@
 - play_policy: Final score=384 max_tile=32 (seed=0, device=auto)
 - simulate random: n=50 seed=0 mean=1103.12 p50=980.0 p90=2072.8 mean_invalid=0.0
 - simulate expectimax: n=10 depth=3 max-cells=2 max-steps=5000 mean=6182.0 p50=5608.0 p90=8699.6 mean_invalid=0.0
+- simulate expectimax: seeds=0-49 depth=3 max-cells=4 mean=7590.8 p50=7090.0 p90=12244.4 rate_2048=0.000 mean_invalid=0.0
 - simulate policy: n=50 seed=0 mean=976.56 p50=862.0 p90=1485.6 mean_invalid=0.0
 - simulate random: n=200 seed=0 mean=1112.54 p50=996.0 p90=2068.0 mean_invalid=0.0
 - simulate expectimax: n=10 depth=3 max-cells=2 max-steps=5000 mean=6182.0 p50=5608.0 p90=8699.6 mean_invalid=0.0
@@ -107,8 +108,7 @@ blockers: - なし
   - json: `.artifacts/simulate_random_20251226_013207.json`
   - csv: `.artifacts/simulate_random_20251226_013207.csv`
 - expectimax: `python scripts/simulate.py --agent expectimax --depth 3 --max-cells 4 --seeds 0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49 --quiet`
-  - output: timeout (1h)
-  - json/csv: not generated
+  - output: `expectimax games=50 mean=7590.8 p50=7090.0 p90=12244.4 rate_2048=0.000 invalid=0.0000`
 - policy: `python scripts/simulate.py --agent policy --model data/models/policy_best.pt --seeds 0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49 --quiet`
   - output: `policy games=50 mean=976.6 p50=862.0 p90=1485.6 rate_2048=0.000 invalid=0.0000`
   - json: `.artifacts/simulate_policy_20251226_013217.json`
