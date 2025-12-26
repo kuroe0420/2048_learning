@@ -1,6 +1,6 @@
 # 進捗 (SSOT)
 
-最終更新: 2025-12-26 02:54
+最終更新: 2025-12-26 09:50
 
 ## 完了
 - 進捗共有の仕組みを追加（docs/PROGRESS.md, scripts/status.py, scripts/run_tests.py）
@@ -31,6 +31,7 @@
 - 手動計測の単発結果を記録（random/expectimax/policy）
 - 手動計測の複数seed結果を記録（random/policy）
 - simulate.py 改修と評価基盤の再計測（expectimaxは長時間のため未完了）
+- simulate.py の進捗表示を強化（percent/ETA）
 
 ## 作業中
 - なし
@@ -72,9 +73,9 @@
 ## 進捗ブロック
 ```
 # PROGRESS_UPDATE
-updated: 2025-12-26 02:54
+updated: 2025-12-26 09:50
 branch: master
-commit: e6b7456 chore: improve simulate benchmark usability and metrics
+commit: e507f91 docs: refresh progress block after simulate update
 tests: PASS
 artifacts: train_last.log=present, play_policy_summary.json=present
 next: - なし

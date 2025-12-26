@@ -225,9 +225,12 @@ def main() -> None:
             mean_score = float(np.mean(scores_so_far))
             invalid_rate = float(np.mean([g["invalid_rate"] for g in per_game]))
             elapsed = time.perf_counter() - start_all
+            avg_per_game = elapsed / idx
+            remaining = max(0.0, (total_games - idx) * avg_per_game)
+            pct = (idx / total_games) * 100.0
             print(
-                f"[{idx}/{total_games}] mean={mean_score:.1f} p50={p50:.1f} "
-                f"p90={p90:.1f} invalid={invalid_rate:.4f} elapsed={elapsed:.1f}s"
+                f"[{idx}/{total_games} {pct:.1f}%] mean={mean_score:.1f} p50={p50:.1f} "
+                f"p90={p90:.1f} invalid={invalid_rate:.4f} elapsed={elapsed:.1f}s eta={remaining:.1f}s"
             )
 
     scores = np.array([g["final_score"] for g in per_game], dtype=np.float64)
