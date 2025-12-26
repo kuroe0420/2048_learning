@@ -1,6 +1,6 @@
 # 進捗 (SSOT)
 
-最終更新: 2025-12-26 13:16
+最終更新: 2025-12-26 13:37
 
 ## 完了
 - 進捗共有の仕組みを追加（docs/PROGRESS.md, scripts/status.py, scripts/run_tests.py）
@@ -36,10 +36,10 @@
 - CUDA未検出のため学習はCPUで実行
 
 ## 作業中
-- なし
+- dataset_d3_g500.npz の生成と再学習（FileNotFoundErrorで停止）
 
 ## 次にやること
-- なし
+- dataset_d3_g500.npz を生成して再学習を実行
 
 ## ブロッカー
 - なし
@@ -65,6 +65,7 @@
 - simulate expectimax: n=10 depth=3 max-cells=2 max-steps=5000 mean=6182.0 p50=5608.0 p90=8699.6 mean_invalid=0.0
 - simulate expectimax: seeds=0-49 depth=3 max-cells=4 mean=7590.8 p50=7090.0 p90=12244.4 rate_2048=0.000 mean_invalid=0.0
 - simulate policy: n=50 seed=0 mean=976.56 p50=862.0 p90=1485.6 mean_invalid=0.0
+- train_policy: dataset_d3_g500.npz が見つからず FileNotFoundError
 - simulate random: n=200 seed=0 mean=1112.54 p50=996.0 p90=2068.0 mean_invalid=0.0
 - simulate expectimax: n=10 depth=3 max-cells=2 max-steps=5000 mean=6182.0 p50=5608.0 p90=8699.6 mean_invalid=0.0
 - simulate policy: n=200 seed=0 mean=1038.62 p50=950.0 p90=1576.4 mean_invalid=0.0
@@ -77,12 +78,12 @@
 ## 進捗ブロック
 ```
 # PROGRESS_UPDATE
-updated: 2025-12-26 13:16
+updated: 2025-12-26 13:37
 branch: master
-commit: c7e678f docs: record expectimax multi-seed results
+commit: 872ad2e docs: refresh progress block
 tests: PASS
 artifacts: train_last.log=present, play_policy_summary.json=present
-next: - なし
+next: - dataset_d3_g500.npz を生成して再学習を実行
 blockers: - なし
 ```
 
