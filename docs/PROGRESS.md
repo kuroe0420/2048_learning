@@ -1,6 +1,6 @@
 # 進捗 (SSOT)
 
-最終更新: 2025-12-26 13:37
+最終更新: 2025-12-26 22:49
 
 ## 完了
 - 進捗共有の仕組みを追加（docs/PROGRESS.md, scripts/status.py, scripts/run_tests.py）
@@ -34,6 +34,7 @@
 - simulate.py の進捗表示を強化（percent/ETA）
 - policy 再学習（dataset_d2_g100_fast）と再評価を実施
 - CUDA未検出のため学習はCPUで実行
+- generate_dataset の進捗表示を追加（steps/samples/ETA）
 
 ## 作業中
 - dataset_d3_g500.npz の生成と再学習（FileNotFoundErrorで停止）
@@ -78,9 +79,9 @@
 ## 進捗ブロック
 ```
 # PROGRESS_UPDATE
-updated: 2025-12-26 13:37
+updated: 2025-12-26 22:49
 branch: master
-commit: 872ad2e docs: refresh progress block
+commit: a6f89b8 docs: record training error and next steps
 tests: PASS
 artifacts: train_last.log=present, play_policy_summary.json=present
 next: - dataset_d3_g500.npz を生成して再学習を実行

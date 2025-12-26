@@ -1,6 +1,7 @@
 import argparse
 import random
 import sys
+import time
 from pathlib import Path
 
 import numpy as np
@@ -21,6 +22,8 @@ def main() -> None:
     parser.add_argument("--include-invalid", action="store_true")
     parser.add_argument("--max-steps", type=int, default=None)
     parser.add_argument("--max-cells", type=int, default=4)
+    parser.add_argument("--progress-every", type=int, default=10)
+    parser.add_argument("--quiet", action="store_true")
     args = parser.parse_args()
 
     out_path = Path(args.out) if args.out else Path("data/raw") / f"dataset_expectimax_depth{args.depth}_games{args.num_games}.npz"
@@ -40,11 +43,18 @@ def main() -> None:
 
     env = Twenty48Env()
 
+    total_steps = 0
+    total_samples = 0
+    start_time = time.perf_counter()
+    progress_every = max(1, int(args.progress_every))
+
     for game_idx in range(args.num_games):
         game_seed = args.seed + game_idx if args.seed is not None else None
         env.reset(seed=game_seed)
         done = False
         step = 0
+        game_steps = 0
+        game_samples = 0
         while not done:
             action = choose_action(env, args.depth, max_cells=args.max_cells)
             board_before = env.board.copy()
@@ -64,10 +74,28 @@ def main() -> None:
                 step_indices.append(step)
                 seeds.append(-1 if game_seed is None else int(game_seed))
                 depths.append(args.depth)
+                game_samples += 1
 
             step += 1
+            game_steps += 1
             if args.max_steps is not None and step >= args.max_steps:
                 break
+
+        total_steps += game_steps
+        total_samples += game_samples
+        if not args.quiet and (
+            (game_idx + 1) % progress_every == 0
+            or game_idx == 0
+            or (game_idx + 1) == args.num_games
+        ):
+            elapsed = time.perf_counter() - start_time
+            avg_per_game = elapsed / (game_idx + 1)
+            remaining = max(0, args.num_games - (game_idx + 1))
+            eta = avg_per_game * remaining
+            print(
+                f"[{game_idx + 1}/{args.num_games}] steps={total_steps} "
+                f"samples={total_samples} elapsed={elapsed:.1f}s eta={eta:.1f}s"
+            )
 
     np.savez_compressed(
         out_path,
@@ -81,6 +109,12 @@ def main() -> None:
         seeds=np.asarray(seeds, dtype=np.int32),
         depths=np.asarray(depths, dtype=np.int16),
     )
+    elapsed = time.perf_counter() - start_time
+    if not args.quiet:
+        print(
+            f"done games={args.num_games} steps={total_steps} samples={total_samples} "
+            f"elapsed={elapsed:.1f}s"
+        )
     print(f"saved: {out_path}")
 
 
