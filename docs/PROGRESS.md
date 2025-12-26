@@ -1,6 +1,6 @@
 # 進捗 (SSOT)
 
-最終更新: 2025-12-26 12:04
+最終更新: 2025-12-26 13:16
 
 ## 完了
 - 進捗共有の仕組みを追加（docs/PROGRESS.md, scripts/status.py, scripts/run_tests.py）
@@ -32,6 +32,8 @@
 - 手動計測の複数seed結果を記録（random/policy）
 - simulate.py 改修と評価基盤の再計測（expectimaxは長時間のため未完了）
 - simulate.py の進捗表示を強化（percent/ETA）
+- policy 再学習（dataset_d2_g100_fast）と再評価を実施
+- CUDA未検出のため学習はCPUで実行
 
 ## 作業中
 - なし
@@ -70,13 +72,14 @@
 - simulate policy: seeds=0-9 mean=1222.4 p50=1204.0 p90=1757.6 mean_invalid=0.0
 - simulate random (seeds 0-49): mean=1103.1 p50=980.0 p90=2072.8 rate_2048=0.000 invalid=0.0000
 - simulate policy (seeds 0-49): mean=976.6 p50=862.0 p90=1485.6 rate_2048=0.000 invalid=0.0000
+- simulate policy (retrain d2 g100): seeds=0-49 mean=1541.5 p50=1396.0 p90=2687.2 rate_2048=0.000 invalid=0.0000
 
 ## 進捗ブロック
 ```
 # PROGRESS_UPDATE
-updated: 2025-12-26 09:50
+updated: 2025-12-26 13:16
 branch: master
-commit: e507f91 docs: refresh progress block after simulate update
+commit: c7e678f docs: record expectimax multi-seed results
 tests: PASS
 artifacts: train_last.log=present, play_policy_summary.json=present
 next: - なし
@@ -110,9 +113,9 @@ blockers: - なし
 - expectimax: `python scripts/simulate.py --agent expectimax --depth 3 --max-cells 4 --seeds 0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49 --quiet`
   - output: `expectimax games=50 mean=7590.8 p50=7090.0 p90=12244.4 rate_2048=0.000 invalid=0.0000`
 - policy: `python scripts/simulate.py --agent policy --model data/models/policy_best.pt --seeds 0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49 --quiet`
-  - output: `policy games=50 mean=976.6 p50=862.0 p90=1485.6 rate_2048=0.000 invalid=0.0000`
-  - json: `.artifacts/simulate_policy_20251226_013217.json`
-  - csv: `.artifacts/simulate_policy_20251226_013217.csv`
+  - output: `policy games=50 mean=1541.5 p50=1396.0 p90=2687.2 rate_2048=0.000 invalid=0.0000`
+  - json: `.artifacts/simulate_policy_20251226_131628.json`
+  - csv: `.artifacts/simulate_policy_20251226_131628.csv`
 
 ## ログ取得
 - train command: `python scripts/train_policy.py --dataset data/raw/dataset_small.npz --epochs 5 --batch-size 256 --lr 1e-3 --val-ratio 0.1 --out-dir data/models --seed 0`
