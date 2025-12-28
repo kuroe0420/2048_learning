@@ -1,6 +1,6 @@
 # 進捗 (SSOT)
 
-最終更新: 2025-12-26 22:49
+最終更新: 2025-12-28 22:13
 
 ## 完了
 - 進捗共有の仕組みを追加（docs/PROGRESS.md, scripts/status.py, scripts/run_tests.py）
@@ -37,10 +37,10 @@
 - generate_dataset の進捗表示を追加（steps/samples/ETA）
 
 ## 作業中
-- dataset_d3_g500.npz の生成と再学習（FileNotFoundErrorで停止）
+- dataset_d3_g500.npz を用いた再学習
 
 ## 次にやること
-- dataset_d3_g500.npz を生成して再学習を実行
+- dataset_d3_g500.npz で再学習を実行
 
 ## ブロッカー
 - なし
@@ -60,6 +60,7 @@
 - train_policy: epochs=15 batch=256 lr=1e-3 val=0.1 device=auto
 - play_policy: Final score=396 max_tile=32 (seed=0, device=auto)
 - generate_dataset: num-games=5 depth=3 max-cells=2 max-steps=2000 保存=dataset_d3_g5_fast.npz
+- generate_dataset: num-games=500 depth=3 max-cells=4 max-steps=20000 保存=dataset_d3_g500.npz
 - train_policy: epochs=20 batch=256 lr=1e-3 val=0.1 device=auto
 - play_policy: Final score=384 max_tile=32 (seed=0, device=auto)
 - simulate random: n=50 seed=0 mean=1103.12 p50=980.0 p90=2072.8 mean_invalid=0.0
@@ -79,12 +80,12 @@
 ## 進捗ブロック
 ```
 # PROGRESS_UPDATE
-updated: 2025-12-26 22:49
+updated: 2025-12-28 22:13
 branch: master
-commit: a6f89b8 docs: record training error and next steps
+commit: a7a7a4d feat: add progress logging to dataset generation
 tests: PASS
 artifacts: train_last.log=present, play_policy_summary.json=present
-next: - dataset_d3_g500.npz を生成して再学習を実行
+next: - dataset_d3_g500.npz で再学習を実行
 blockers: - なし
 ```
 
