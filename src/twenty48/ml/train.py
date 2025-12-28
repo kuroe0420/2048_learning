@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import time
 from pathlib import Path
 from typing import Dict, Tuple
 
@@ -68,6 +69,7 @@ def train_policy(
         if not csv_path.exists():
             csv_path.write_text("epoch,train_loss,val_loss,val_acc\n", encoding="utf-8")
 
+    start_time = time.perf_counter()
     for epoch in range(1, epochs + 1):
         model.train()
         train_loss = 0.0
@@ -115,11 +117,16 @@ def train_policy(
             with Path(metrics_csv).open("a", encoding="utf-8") as handle:
                 handle.write(f"{epoch},{train_loss:.6f},{val_loss:.6f},{val_acc:.6f}\n")
 
+        elapsed = time.perf_counter() - start_time
+        avg_epoch = elapsed / max(1, epoch)
+        eta = avg_epoch * max(0, epochs - epoch)
         print(
             f"Epoch {epoch}/{epochs} | train_loss={train_loss:.4f} | "
-            f"val_loss={val_loss:.4f} | val_acc={val_acc:.4f}"
+            f"val_loss={val_loss:.4f} | val_acc={val_acc:.4f} | "
+            f"elapsed={elapsed:.1f}s | eta={eta:.1f}s"
         )
 
+    total_elapsed = time.perf_counter() - start_time
     if log_file:
         with Path(log_file).open("a", encoding="utf-8") as handle:
             handle.write(
@@ -130,6 +137,7 @@ def train_policy(
                 "best: "
                 f"val_loss={best_val:.6f} val_acc={best_val_acc:.6f}\n"
             )
+            handle.write(f"elapsed_sec={total_elapsed:.3f}\n")
 
     metrics = {"best_val_loss": best_val, "best_val_acc": best_val_acc}
     return best_path, metrics

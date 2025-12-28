@@ -1,6 +1,7 @@
 import argparse
 import json
 import sys
+import time
 from pathlib import Path
 
 import torch
@@ -67,6 +68,7 @@ def main() -> None:
         encoding="utf-8",
     )
 
+    start_time = time.perf_counter()
     done = False
     step = 0
     invalid_count = 0
@@ -102,7 +104,10 @@ def main() -> None:
         if args.max_steps is not None and step >= args.max_steps:
             break
 
+    elapsed = time.perf_counter() - start_time
     print(f"Final score={env.score} max_tile={int(env.board.max())}")
+    with log_path.open("a", encoding="utf-8") as handle:
+        handle.write(f"elapsed_sec={elapsed:.3f}\n")
 
     summary = {
         "final_score": int(env.score),
@@ -113,6 +118,7 @@ def main() -> None:
         "model": str(model_path),
         "seed": args.seed,
         "max_steps": args.max_steps,
+        "duration_ms": int(elapsed * 1000),
     }
     Path(args.summary_json).write_text(json.dumps(summary, indent=2), encoding="utf-8")
 

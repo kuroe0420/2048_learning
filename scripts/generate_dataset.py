@@ -24,6 +24,7 @@ def main() -> None:
     parser.add_argument("--max-cells", type=int, default=4)
     parser.add_argument("--progress-every", type=int, default=10)
     parser.add_argument("--quiet", action="store_true")
+    parser.add_argument("--log-file", type=str, default=".artifacts/generate_dataset_last.log")
     args = parser.parse_args()
 
     out_path = Path(args.out) if args.out else Path("data/raw") / f"dataset_expectimax_depth{args.depth}_games{args.num_games}.npz"
@@ -114,6 +115,28 @@ def main() -> None:
         print(
             f"done games={args.num_games} steps={total_steps} samples={total_samples} "
             f"elapsed={elapsed:.1f}s"
+        )
+    if args.log_file:
+        log_path = Path(args.log_file)
+        log_path.parent.mkdir(parents=True, exist_ok=True)
+        log_path.write_text(
+            "\n".join(
+                [
+                    "generate_dataset log",
+                    f"out={out_path}",
+                    f"num_games={args.num_games}",
+                    f"depth={args.depth}",
+                    f"max_cells={args.max_cells}",
+                    f"max_steps={args.max_steps}",
+                    f"sample_prob={args.sample_prob}",
+                    f"seed={args.seed}",
+                    f"steps={total_steps}",
+                    f"samples={total_samples}",
+                    f"elapsed_sec={elapsed:.3f}",
+                ]
+            )
+            + "\n",
+            encoding="utf-8",
         )
     print(f"saved: {out_path}")
 

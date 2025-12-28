@@ -1,6 +1,6 @@
 # 進捗 (SSOT)
 
-最終更新: 2025-12-28 22:13
+最終更新: 2025-12-28 23:10
 
 ## 完了
 - 進捗共有の仕組みを追加（docs/PROGRESS.md, scripts/status.py, scripts/run_tests.py）
@@ -35,6 +35,8 @@
 - policy 再学習（dataset_d2_g100_fast）と再評価を実施
 - CUDA未検出のため学習はCPUで実行
 - generate_dataset の進捗表示を追加（steps/samples/ETA）
+- train_policy の進捗に elapsed/ETA を追加
+- play_policy の summary に duration を追加
 
 ## 作業中
 - dataset_d3_g500.npz を用いた再学習
@@ -80,9 +82,9 @@
 ## 進捗ブロック
 ```
 # PROGRESS_UPDATE
-updated: 2025-12-28 22:13
+updated: 2025-12-28 23:10
 branch: master
-commit: a7a7a4d feat: add progress logging to dataset generation
+commit: a20fdad docs: record dataset generation for d3 g500
 tests: PASS
 artifacts: train_last.log=present, play_policy_summary.json=present
 next: - dataset_d3_g500.npz で再学習を実行
