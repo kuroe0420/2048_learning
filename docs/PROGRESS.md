@@ -1,6 +1,6 @@
 # 進捗 (SSOT)
 
-最終更新: 2025-12-29 07:52
+最終更新: 2025-12-29 07:54
 
 ## 完了
 - 進捗共有の仕組みを追加（docs/PROGRESS.md, scripts/status.py, scripts/run_tests.py）
@@ -39,10 +39,10 @@
 - play_policy の summary に duration を追加
 
 ## 作業中
-- 再学習モデルの評価（play_policy / simulate）
+- なし
 
 ## 次にやること
-- play_policy と simulate で再学習モデルを評価
+- なし
 
 ## ブロッカー
 - なし
@@ -80,16 +80,17 @@
 - simulate policy (retrain d2 g100): seeds=0-49 mean=1541.5 p50=1396.0 p90=2687.2 rate_2048=0.000 invalid=0.0000
 - train_policy: dataset_d3_g500.npz epochs=30 batch=256 lr=1e-3 val=0.1 device=auto final train_loss=0.7145 val_loss=1.3837 val_acc=0.4676 elapsed=407.7s
 - play_policy: Final score=1576 max_tile=128 steps=156 invalid=0 (seed=0, model=policy_best.pt)
+- simulate policy (retrain d3 g500): seeds=0-49 mean=3062.8 p50=2900.0 p90=4246.8 rate_2048=0.000 invalid=0.0000
 
 ## 進捗ブロック
 ```
 # PROGRESS_UPDATE
-updated: 2025-12-29 07:52
+updated: 2025-12-29 07:54
 branch: master
-commit: 2c57207 docs: record d3 g500 training results
+commit: 3604421 docs: record play_policy result for d3 g500
 tests: PASS
 artifacts: train_last.log=present, play_policy_summary.json=present
-next: - play_policy と simulate で再学習モデルを評価
+next: - なし
 blockers: - なし
 ```
 
